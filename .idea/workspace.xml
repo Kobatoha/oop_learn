@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd556ec1-0331-4057-a440-a724a5c50790" name="Changes" comment="update all lesson">
+    <list default="true" id="cd556ec1-0331-4057-a440-a724a5c50790" name="Changes" comment="lesson 9">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -98,7 +98,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735991396966</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="lesson 9">
+      <option name="closed" value="true" />
+      <created>1735997940407</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1735997940407</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -106,6 +114,7 @@
     <MESSAGE value="upd lesson 6" />
     <MESSAGE value="lesson 7" />
     <MESSAGE value="update all lesson" />
-    <option name="LAST_COMMIT_MESSAGE" value="update all lesson" />
+    <MESSAGE value="lesson 9" />
+    <option name="LAST_COMMIT_MESSAGE" value="lesson 9" />
   </component>
 </project>

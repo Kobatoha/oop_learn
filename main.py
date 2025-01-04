@@ -385,3 +385,97 @@ def lesson_9():
     del p.old  # Удаляем закрытое приватное свойство __old, а локальное old остается, т.к. у свойства property приоритет
 
 
+def lesson_10():
+    """
+    Объекты свойства - использование сеттеров и геттеров
+    """
+    from string import ascii_letters
+
+    class Person:
+        S_RUS = 'йцукенгшщзхъфывапролджэячсмитьбю-'
+        S_RUS_UPPER = S_RUS.upper()
+
+        def __init__(self, fio, old, passport, weight):
+            self.verify_fio(fio)            # при создании экземпляра класса проверяем корректность значения fio
+
+            self.__fio = fio.split()
+            self.old = old                  # можно сразу воспользоваться объектами свойствами
+            self.passport = passport
+            self.weight = weight
+
+        @classmethod
+        def verify_fio(cls, fio):
+            if str != type(fio):        # проверяем, что значение fio - это строка
+                raise TypeError("ФИО должно быть строкой")
+
+            f = fio.split()
+            if len(f) != 3:             # проверяем, что формат fio - список из трех объектов
+                raise TypeError("Неверный формат ФИО")
+
+            letters = ascii_letters + cls.S_RUS + cls.S_RUS_UPPER
+            for s in f:
+                if len(s) < 1:
+                    raise TypeError("В ФИО должен быть хотя бы один символ")
+                if len(s.strip(letters)) != 0:
+                    raise TypeError("В ФИО можно использовать только буквенные символы и дефис")
+
+        @classmethod
+        def verify_old(cls, old):
+            if int != type(old) or old < 14 or old > 120:
+                raise TypeError("Возраст должен быть целым числом в диапазоне [14, 120]")
+
+        @classmethod
+        def verify_weight(cls, weight):
+            if float != type(weight) or weight < 20:
+                raise TypeError("Возраст должен быть целым числом в диапазоне [14, 120]")
+
+        @classmethod
+        def verify_passport(cls, passport):
+            if str != type(passport):
+                raise TypeError("Паспорт должен быть строкой")
+
+            s = passport.split()
+            if len(s) != 2 or len(s[0]) != 4 or len(s[1]) != 6:
+                raise TypeError("Неверный формат паспорта")
+
+            for p in s:
+                if not p.isdigit():
+                    raise TypeError("Серия и номер паспорта должны быть числами")
+
+        @property
+        def fio(self):
+            return self.__fio
+
+        @property
+        def old(self):
+            return self.__old
+
+        @old.setter
+        def old(self, old):
+            self.verify_old(old)
+            self.__old = old
+
+        @property
+        def weight(self):
+            return self.__weight
+
+        @weight.setter
+        def weight(self, weight):
+            self.verify_weight(weight)
+            self.__weight = weight
+
+        @property
+        def passport(self):
+            return self.__passport
+
+        @passport.setter
+        def passport(self, passport):
+            self.__passport = passport
+
+    p = Person('Тараканова Алла Федоровна', 48, '1234 567890', 88.8)    # создаем экземпляр
+    print(p.weight)             # обращаемся к геттеру веса
+    p.weight = 83.8             # обращаемся к сеттеру веса
+    print(p.weight)             # обращаемся к геттеру веса
+    p.passport = '2222 444555'  # обращаемся к сеттеру паспорта
+    p.old = 100                 # обращаемся к сеттеру возраста
+    print(p.__dict__)           # обратимся к локальным атрибутам экземпляра класса
