@@ -11,25 +11,6 @@ def lesson_1():
         color = 'red'  # атрибуты или свойства класса
         circle = 2
 
-        def __new__(cls, *args, **kwargs):
-            print('вызов __new__ для' + str(cls))
-            return super().__new__(cls)
-
-        def __init__(self, x=0, y=0):
-            print('вызов __init__ для' + str(self))
-            self.x = x
-            self.y = y
-
-        def __del__(self):
-            print('Удаление экземпляра' + str(self))
-
-        def set_coords(self, x, y):  # self -  ссылка на экземпляр класса
-            self.x = x               # добавляет локальные атрибуты в конкретный экземпляр класса
-            self.y = y
-
-        def get_coords(self):
-            return self.x, self.y
-
     a = Point()   # создание объекта класса
     b = Point()   # создание другого объекта класса
 
@@ -74,18 +55,6 @@ def lesson_2():
         color = 'red'  # атрибуты или свойства класса
         circle = 2
 
-        def __new__(cls, *args, **kwargs):
-            print('вызов __new__ для' + str(cls))
-            return super().__new__(cls)
-
-        def __init__(self, x=0, y=0):
-            print('вызов __init__ для' + str(self))
-            self.x = x
-            self.y = y
-
-        def __del__(self):
-            print('Удаление экземпляра' + str(self))
-
         def set_coords(self, x, y):  # self -  ссылка на экземпляр класса
             self.x = x  # добавляет локальные атрибуты в конкретный экземпляр класса
             self.y = y
@@ -118,13 +87,8 @@ def lesson_3():
     В таком случае происходит удаление объекта. И перед удалением будет вызван метод __del__ """
 
     class Point:
-        "Класс"
         color = 'red'  # атрибуты или свойства класса
         circle = 2
-
-        def __new__(cls, *args, **kwargs):
-            print('вызов __new__ для' + str(cls))
-            return super().__new__(cls)
 
         def __init__(self, x=0, y=0):
             print('вызов __init__ для' + str(self))
@@ -208,8 +172,9 @@ def lesson_5():
         MIN_COORD = 0
         MAX_COORD = 100
 
-        @classmethod    # определяется на уровне класса и работает исключительно с методами класса,
-                        # и не может обращаться к локальным атрибутам экземпляров класса
+        """ @classmethod - определяется на уровне класса и работает исключительно с методами класса, и не может 
+        обращаться к локальным атрибутам экземпляров класса """
+        @classmethod
         def validate(cls, arg):
             return cls.MIN_COORD <= arg <= cls.MAX_COORD
 
@@ -222,13 +187,13 @@ def lesson_5():
         def get_coord(self):
             return self.x, self.y
 
-        @staticmethod       # используются без дополнительных аргументов, только то, что принимает метод
+        @staticmethod       # используются без дополнительных аргументов, только то, что принимает метод, без ссылок
         def norm2(x, y):
             return x * x + y * y
 
     v = Vector(1, 3)
     Vector.validate(5)      # метод класса вызывается без аргумента cls, потому что он подставляется из коробки
-    res = v.get_coord()     # или Vector.get_coord(v)
+    res = v.get_coord()     # == Vector.get_coord(v)
     print(res)
 
 
@@ -240,7 +205,7 @@ def lesson_6():
 
     Суть инкапсуляции - взаимодействовать с атрибутами класса только через публичные методы
 
-    Приватными могут быть и методы и атрибуты, и обозначаются __метод
+    Приватными могут быть и методы, и атрибуты, и обозначаются __метод и __атрибут
 
     Для лучшей защиты методов и атрибутов класса, можно использовать модуль accessify
     pip install accessify
