@@ -277,4 +277,68 @@ def lesson_6():
     print(pt._Poind__check_value(5))    # стоит @private из accessify и доступ к методу запрещен
 
 
+def lesson_7():
+    """
+    __setattr__(self, key, value)
+    __getattribute(self, item)
+    __getattr__(self, item)
+    __delattr__(self, item)
+
+    """
+    class Point:    # 4 атрибута класса MIN_COORD, MAX_COORD, __init__, set_coord
+        MIN_COORD = 100
+        MAX_COORD = 0
+
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+        def set_coord(self, x, y):
+            self.x = x
+            self.y = y
+
+        """ Когда мы указываем self - то это всегда ссылка на экземпляр класса и новое значение в переменной 
+        записывается в ближайшее пространство имен, т.е. в pt, а в Point значение атрибута остается неизменным 
+        def set_bound(self, left):
+            self.MIN_COORD = left        
+        """
+        @classmethod
+        def set_bound(cls, left):
+            cls.MIN_COORD = left
+
+        # метод автоматически вызывается, когда идет считывание атрибута через экземпляр класса
+        # с помощью этого метода можем управлять обращением к тому или иному атрибуту класса
+        def __getattribute__(self, item):   # переопределили магический метод
+            if item == 'x':   # если обращаемся к x, то получим ошибку "доступ запрещен"
+                raise ValueError('Доступ запрещен')
+            else:             # иначе вернем значение атрибута
+                return object.__getattribute__(self, item)
+
+        # Вызывается каждый раз, когда идет присвоение атрибуту определенного значения
+        # Мы можем запретить создавать какой-то атрибут в экземплярах класса
+        def __setattr__(self, key, value):
+            if key == 'z':
+                raise AttributeError("Недопустимое имя атрибута")
+            else:
+                object.__setattr__(self, key, value)
+
+        # Вызывается каждый раз, когда идет обращение к несуществующему атрибуту экземпляра класса
+        # Если нам не нужна ошибка при обращении к несуществующему методу, мы можем переопределить его
+        # И возвращать что-то другое, например False
+        def __getattr__(self, item):
+            return False
+
+        # Вызывается каждый раз, когда удаляется определенный атрибут из экземпляра класса
+        def __delattr__(self, item):
+            print("__delattr__" + item)
+            object.__delattr__(self, item)    # строчка, которая именно удаляет атрибут
+
+    pt1 = Point(1, 2)     # создание экземпляра класса Point
+    print(pt1.MAX_COORD)        # мы можем обращаться к атрибуту класса из его экземпляра
+    pt1.set_bound(-100)         # значение атрибута меняется именно в пространстве имен класса из-за @classmethod
+    print(Point.__dict__)       #
+    print(pt1.yy)               # Обращаемся к несуществующему атрибуту и получаем False, тк переопределили __getattr__
+    del pt1.x                   # Вызывается __delattr__
+    print(pt1.__dict__)         # Проверяем, что атрибут действительно удален
+
 
