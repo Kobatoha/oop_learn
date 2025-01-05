@@ -479,3 +479,60 @@ def lesson_10():
     p.passport = '2222 444555'  # обращаемся к сеттеру паспорта
     p.old = 100                 # обращаемся к сеттеру возраста
     print(p.__dict__)           # обратимся к локальным атрибутам экземпляра класса
+
+
+def lesson_11():
+    """
+    Дескриптор данных - это универсальный класс, который описывает геттеры, сеттеры и делитеры для любых переменных
+    класса с приватными свойствами.
+    Дескриптор не данных - это класс, который содержит только геттер, может только считывать информацию.
+    """
+
+    # Реализация дескриптора данных:
+    class Integer:
+        # Проверка числа на соответствие допустимых значений
+        @classmethod
+        def verify_coord(cls, coord):
+            if type(coord) != int:
+                raise TypeError("Координата должна быть целым числом")
+
+        # Создание локального свойства экземпляра класса
+        def __set_name__(self, owner, name):
+            self.name = "_" + name
+
+        # Геттер, который читает данные локального свойства экземпляра класса
+        def __get__(self, instance, owner):
+            # использование встроенных методов считается правильным решением
+            return getattr(instance, self.name)      # == return instance.__dict__[self.name]
+
+        # Сеттер, который присваивает локальному приватному атрибуту экземпляра класса соответствующее значение
+        def __set__(self, instance, value):
+            self.verify_coord(value)
+            print(f"__set__: {self.name} = {value}")
+            # instance ссылается на текущий экземпляр класса Point3D и создает
+            # в этом экземпляре локальное свойство со значением value
+            instance.__dict__[self.name] = value    # == setattr(instance, self.name, value)
+
+    # Реализация дескриптора не-данных
+    class ReadIntX:
+        def __set_name__(self, owner, name):
+            self.name = '_x'
+
+        def __get__(self, instance, owner):
+            return getattr(instance, self.name)
+
+    class Point3D:
+        # Интерфейсы взаимодействия с координатами x, y, z
+        x = Integer()
+        y = Integer()
+        z = Integer()
+
+        def __init__(self, x, y, z):
+            self.x = x
+            self.y = y
+            self.z = z
+
+
+    p = Point3D('1', 2, 3)
+    print(p.__dict__)
+    print(p.x)
