@@ -536,3 +536,45 @@ def lesson_11():
     p = Point3D('1', 2, 3)
     print(p.__dict__)
     print(p.x)
+
+
+def lesson_12():
+    """
+    __call__ - магический метод вызова. Когда мы вызываем c = Point(), то здесь срабатывает __call__ из метакласса, у
+    самого же экземпляра класса с нет метода __call__ и мы не можем его вызвать как функцию, т.е. с() == ошибка.
+
+    Магические методы так же называются dunder_методы (сокр. двойное подчеркивание с англ.)
+    Экземпляры класса мы не можем вызывать как функции, т.к. у него нет методы __call__
+    Классы, у которых прописан метод __call__ называются функторы.
+    __call__ может использоваться для замыкания функции или создания класса декоратора
+    """
+    class Counter:
+        def __init__(self):
+            self.__counter = 0
+
+        def __call__(self, *args, **kwargs):
+            print("__call__")
+            self.__counter += 1
+            return self.__counter
+
+    class StripChars:
+        def __init__(self, chars):
+            self.__counter = 0
+            self.__chars = chars
+
+        def __call__(self, *args, **kwargs):
+            if not isinstance(args[0], str):
+                raise TypeError("Аргумент должен быть строкой")
+
+            return args[0].strip(self.__chars)
+
+    """
+    c = Counter() -> круглые скобки, т.е. вызов класса - это вызов функции __call__
+    простая схема что такое __cal__:
+    __call__(self, *args, **kwargs):
+        obj = self.__new__(self, *args, **kwargs)
+        self.__init__(obj, *args, **kwargs)
+        return obj
+    """
+    c = Counter()
+    c()         # можно вызывать как функцию
