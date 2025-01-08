@@ -816,6 +816,10 @@ def lesson_18():
     __getitem__(self, item) - получение значения по ключу item
     __setitem__(self, key, value) - запись значения value по ключу key
     __delitem__(self, key) - удаление элемента по ключу key
+
+    Эти методы используются для работы с объектами, которые ведут себя как контейнеры
+    (например, списки, словари, или пользовательские классы, имитирующие их).
+    Они позволяют переопределить доступ к элементам по ключу или индексу.
     """
 
     class Student:
@@ -851,3 +855,68 @@ def lesson_18():
     s1[16] = 5  # вызов магического метода __setitem__ с пользовательской обработкой ошибок
     print(s1.marks)
     del s1[2]  # вызов магического метода __delitem__ и удаление элемента списка по индексу
+
+
+def lesson_19():
+    """
+    Магические методы __iter__ и __next__
+    __iter__ - получение итератора для перебора объекта
+    __next__ - переход к следующему значению и его считывание
+    """
+    list(range(5))
+    a = iter(range(5))
+    next(a)
+
+    # Пользовательский класс эквивалентный функции range(start, stop, step)
+    class FRange:
+        def __init__(self, start=0.0, stop=0.0, step=1.0):
+            self.start = start
+            self.stop = stop
+            self.step = step
+
+        def __iter__(self):
+            self.value = self.start - self.step
+            return self
+
+        def __next__(self):
+            if self.value + self.step < self.stop:
+                self.value += self.step
+                return self.value
+            else:
+                raise StopIteration
+
+    fr = FRange(0, 2, 0.5)
+    # fr.__next__() == next(fr)
+    # Последовательность без определения метода __iter__  - экземпляр класса fr является неитерируемым объектом и не
+    # может использовать цикл for:
+    for x in fr:
+        print(x)
+
+    # цикл for в разрезе - итератор + счетчик
+    iter(fr)
+    print(next(fr))
+    print(next(fr))
+    print(next(fr))
+    print(next(fr))
+
+    class FRange2D:
+        def __init__(self, start=0.0, stop=0.0, step=1.0, rows=5):
+            self.rows = rows
+            self.fr = FRange(start, stop, step)
+
+        def __iter__(self):
+            self.value = 0
+            return self
+
+        def __next__(self):
+            if self.value < self.rows:
+                self.value += 1
+                return iter(self.fr)
+            else:
+                raise StopIteration
+
+    fr = FRange2D(0, 2, 0.5, 4)
+    for row in fr:
+        for x in row:
+            print(x, end=' ')
+        print()
