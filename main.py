@@ -768,3 +768,33 @@ def lesson_16():
 
     d = {p1: 1, p2: 2}
     print(d)
+
+
+def lesson_17():
+    """
+    Магические методы и функция bool()
+    __len__ - вызывается функцией bool(), если не определен магический метод __bool__.
+    __bool__ - вызывается в приоритетном порядке функцией bool()
+    """
+    class Point:
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+        # переопределив магический метод __len__ меняет свою работу и функция bool()
+        def __len__(self):
+            return self.x * self.x + self.y * self.y
+
+        def __bool__(self):
+            print('__bool__')
+            return self.x == self.y
+
+    # bool() всегда возвращает True для объектов пользовательских классов
+    c = Point(10, 10)
+    print(bool(c))
+    print(len(c))
+    if c:  # здесь неявно отрабатывает магический метод __bool__
+        print('Объект c дает True')
+    else:
+        print('Объект c дает False')
+
