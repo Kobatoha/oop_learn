@@ -614,3 +614,72 @@ def lesson_13():
     print(len(p))
     print(abs(p))
 
+
+def lesson_14():
+    """
+    Магические методы арифметических операций для экземпляров класса
+    __add__ - сложение
+    __sub__ - вычитание
+    __mul__ - умножение
+    __truediv__ - деление
+    __floorfiv__ - целочисленное деление
+    __mod__ - остаток от деления
+    + добавить i для оператора '+=', '-=' etc
+    """
+    class Clock:
+        __DAY = 86400
+
+        def __init__(self, seconds: int):
+            if not isinstance(seconds, int):
+                raise TypeError("Секунды должны быть целым числом")
+            self.seconds = seconds % self.__DAY
+
+        def get_time(self):
+            s = self.seconds % 60
+            m = (self.seconds // 60) % 60
+            h = (self.seconds // 3600) % 24
+            return f"{self.__get_formatted(h)}:{self.__get_formatted(m)}:{self.__get_formatted(s)}"
+
+        @classmethod
+        def __get_formatted(cls, x):
+            return str(x).rjust(2, "0")
+
+        """
+        c1 = c1 + 100 == c1.__add__(100) и возвращает НОВЫЙ экземпляр класса, а старый автоматически удаляется  
+        """
+        def __add__(self, other):
+            if not isinstance(other, int | Clock):
+                raise ArithmeticError("Правый операнд должен быть типов int или объектом Clock")
+
+            sc = other
+            if isinstance(other, Clock):
+                sc = other.seconds
+
+            return Clock(self.seconds + sc)
+
+        # __radd__ указывает, что экземпляр класса находится справа от оператора сложения
+        def __radd__(self, other):
+            return self + other
+
+        # __iadd__ указывает на оператор += и его переопределение позволяет производить сложение без создания нового
+        # экземпляра класса
+        def __iadd__(self, other):
+            print('__iadd__')
+            if not isinstance(other, int | Clock):
+                raise ArithmeticError("Правый операнд должен быть типов int или объектом Clock")
+
+            sc = other
+            if isinstance(other, Clock):
+                sc = other.seconds
+
+            self.seconds += sc
+            return self
+
+    c1 = Clock(1000)
+    c2 = Clock(2000)
+    c1.seconds = c1.seconds + 100       # обращение к свойствам экземпляра класса для увеличения числа секунд
+
+    print(c1.get_time())
+    c1 += 100   # без __iadd__ операция += создает новый экземпляр класса
+    c3 = c1 + c2   # при сложении двух экземпляров создается новый экземпляр, что позволяет сделать длинную цепочку +
+
