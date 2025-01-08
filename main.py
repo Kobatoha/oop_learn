@@ -683,3 +683,50 @@ def lesson_14():
     c1 += 100   # без __iadd__ операция += создает новый экземпляр класса
     c3 = c1 + c2   # при сложении двух экземпляров создается новый экземпляр, что позволяет сделать длинную цепочку +
 
+
+def lesson_15():
+    """
+    Магические методы сравнений:
+    __eq__ - == equal to
+    __ne__ - != not equal to
+    __lt__ - < less than
+    __le__ - <= less than or equal to
+    __gt__ - > greater than
+    __ge__ - >= greater than or equal to
+    """
+
+    class Clock:
+        __DAY = 86400
+
+        def __init__(self, seconds: int):
+            if not isinstance(seconds, int):
+                raise TypeError("Секунды должны быть целым числом")
+
+            self.seconds = seconds % self.__DAY
+
+        # проверка на корректность данных и избежание дублирования кода
+        @classmethod
+        def __verify_data(cls, other):
+            if not isinstance(other, int | Clock):
+                raise TypeError("Правый операнд должен быть типом int или объектом Clock")
+
+                # в sc будет число, если other является int, а иначе other.seconds, т.к. other - это экземпляр Clock
+            return other if isinstance(other, int) else other.seconds
+
+        # реализация для оператора сравнения
+        def __eq__(self, other):
+            sc = self.__verify_data(other)
+            return self.seconds == sc
+
+        def __lt__(self, other):
+            sc = self.__verify_data(other)
+            return self.seconds < sc
+
+    c1 = Clock(1003)
+    c2 = Clock(1000)
+    print(c1 == c2)         # сравниваются адреса объектов в памяти устройства, но не их значения
+    print(c1 != c2)         # если не определять оператор неравенства, то python обратится к методу __eq__, сделает
+    # проверку и отдаст противоположный результат, т.к. это будет логическим результатом от метода равенства
+    print(c1 < c2)          # сравниваются по магическому методу __lt__
+    print(c1 > c2)          # не определен метод __gt__, но есть __lt__ и python самостоятельно меняет операнды
+    # местами, чтобы подставить нужный знак <
