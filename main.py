@@ -1052,3 +1052,39 @@ def lesson_22():
 
     print(rect.__dict__)
     print(line.__dict__)
+
+
+def lesson_23():
+    """
+    Private атрибуты жестко привязываются к текущему классу, могут быть вызваны только в базовом классе и не могут
+    быть вызваны в дочерних классах. __атрибут может быть использована только в том классе, в котором непосредственно
+    определен.
+    Protected атрибуты могут быть использованы в дочерних классах. Они предназначены для внутренней логики работы класса
+    и их трогать не следует, но к ним можно обращаться.
+    """
+
+    class Geom:
+        name = 'Geom'
+
+        def __init__(self, x1, y1, x2, y2):
+            print(f"Инициализатор Geom для {self.__class__}")
+            self.__verify_coord(x1)
+            self.__x1 = x1
+            self.__y1 = y1
+            self.__x2 = x2
+            self.__y2 = y2
+
+        def __verify_coord(self, coord):
+            return 0 <= coord < 100
+
+        def get_coords(self):
+            return self.__x1, self.__y1
+
+    class Rect(Geom):
+        def __init__(self, x1, y1, x2, y2, fill='red'):
+            super().__init__(x1, y1, x2, y2)
+            self.__fill = fill
+
+    rect = Rect(0, 0, 10, 20)
+    rect.get_coords()
+    print(rect.__dict__)
