@@ -976,3 +976,40 @@ def lesson_20():
 
     circle = Circle()
     circle.set_coords(1, 1, 1, 1)
+
+
+def lesson_21():
+    """
+    Наследование классов от класса object
+    По-умолчанию все пользовательские классы создаются от родительского класса object, хоть явно это и не указывается.
+    """
+
+    class Geom:
+        pass
+
+    class Line(Geom):
+        pass
+
+    geom = Geom()
+    line = Line()
+    print(geom)  # вызывается метод __str__ из класса object
+    # Наследование классов
+    # issubclass работает только с классами
+    print(issubclass(Geom, object))  # является ли класс Geom дочерним по отношению к классу object
+    print(issubclass(Line, Geom))  # является ли класс Line дочерним по отношению к классу Geom
+    print(issubclass(Line, object))  # является ли класс Line дочерним по отношению к классу object
+    # isinstance работает и с классами, и с экземплярами класса
+    print(isinstance(line, Geom))  # является ли экземпляр класса Line производным от класса Geom
+
+    # Все стандартные типы данных являются классами, производными от object (list, int, str, tuple, dict, etc)
+    print(issubclass(list, object))  # является ли класс list дочерним по отношению к классу object
+
+    # Встроенные типы данных, то бишь классы, можно расширять:
+    class Vector(list):
+        def __str__(self):
+            return " ".join(map(str, self))
+
+    v = Vector([1, 2, 3])
+    print(type(v))
+
+
