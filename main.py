@@ -578,3 +578,39 @@ def lesson_12():
     """
     c = Counter()
     c()         # можно вызывать как функцию
+
+
+def lesson_13():
+    """
+     Магические методы
+     __str__ - срабатывает в момент отображения информации об объекте класса в консоли (для пользователя)
+     __repr__ - срабатывает в момент отображения информации об объекте класса в режиме отладки (служебная-отладочная)
+     __len__ - позволяет применять функцию len() к экземплярам класса
+     __abs__ - позволяет применять функцию abs() к экземплярам класса
+    """
+    class Cat:
+        def __init__(self, name):
+            self.name = name
+
+        def __repr__(self):
+            return f"{self.__class__}: {self.name}"
+
+        def __str__(self):
+            return f"{self.name}"
+
+    cat = Cat("Murrka")
+
+    class Point:
+        def __init__(self, *args):
+            self.__coords = args
+
+        def __len__(self):
+            return len(self.__coords)
+
+        def __abs__(self):
+            return list(map(abs, self.__coords))
+
+    p = Point(1, 2)
+    print(len(p))
+    print(abs(p))
+

@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd556ec1-0331-4057-a440-a724a5c50790" name="Changes" comment="lesson 9">
+    <list default="true" id="cd556ec1-0331-4057-a440-a724a5c50790" name="Changes" comment="lesson 10">
       <change beforePath="$PROJECT_DIR$/.idea/OOP_learn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/OOP_learn.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -53,7 +53,9 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/user/Downloads/ruff-pycharm-plugin-0.0.41-signed.zip",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -112,7 +114,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735997940407</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="lesson 10">
+      <option name="closed" value="true" />
+      <created>1736012578215</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1736012578215</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -121,6 +131,7 @@
     <MESSAGE value="lesson 7" />
     <MESSAGE value="update all lesson" />
     <MESSAGE value="lesson 9" />
-    <option name="LAST_COMMIT_MESSAGE" value="lesson 9" />
+    <MESSAGE value="lesson 10" />
+    <option name="LAST_COMMIT_MESSAGE" value="lesson 10" />
   </component>
 </project>
