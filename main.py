@@ -2159,6 +2159,103 @@ def patterns():
         # Паттерн Flyweight помогает оптимизировать использование памяти, разделяя общие данные между объектами,
         # которые могут иметь схожие состояния.
 
+    def combination():
+        """
+        Комбинирование паттернов — это процесс использования нескольких паттернов проектирования для решения сложной
+        задачи. Вместо того чтобы применять каждый паттерн изолированно, мы можем объединять их, чтобы усилить их
+        сильные стороны и получить более гибкое и масштабируемое решение.
+        """
+        from abc import ABC, abstractmethod
+
+        # Паттерн Strategy: Поведение котов.
+        # Позволяет менять поведение котов (мяукать, спать, играть) без изменения их классов.
+        class CatBehavior(ABC):
+            @abstractmethod
+            def act(self):  # наследники должны переопределить метод act
+                pass
+
+        # Легко добавить новые типы поведения.
+        class MeowBehavior(CatBehavior):
+            def act(self):
+                return "Мяу!"
+
+        class SleepBehavior(CatBehavior):
+            def act(self):
+                return "Спит..."
+
+        class PlayBehavior(CatBehavior):
+            def act(self):
+                return "Играет с игрушкой."
+
+        # Базовый класс для котов
+        class Cat:
+            def __init__(self, name, behavior: CatBehavior):
+                self.name = name
+                self.behavior = behavior
+
+            def perform_action(self):
+                return f"{self.name}: {self.behavior.act()}"
+
+        # Паттерн Composite: Группа котов.
+        # Позволяет работать с группами котов так же, как с отдельными котами.
+        # Упрощает управление большими группами объектов.
+        class CatGroup:
+            def __init__(self, name):
+                self.name = name
+                self.members = []
+
+            def add(self, cat):
+                self.members.append(cat)
+
+            def perform_actions(self):
+                actions = [cat.perform_action() for cat in self.members]
+                return f"Группа {self.name}:\n" + "\n".join(actions)
+
+        # Паттерн Decorator: Дополнительные возможности.
+        # Добавляет дополнительные возможности котам (например, аксессуары) без изменения их базового класса.
+        # Легко добавлять новые "украшения".
+        class DecoratedCat(Cat):
+            def __init__(self, cat, accessory):
+                super().__init__(cat.name, cat.behavior)
+                self.cat = cat
+                self.accessory = accessory
+
+            def perform_action(self):
+                base_action = self.cat.perform_action()
+                return f"{base_action} с аксессуаром '{self.accessory}'"
+
+        # Использование
+        # Создаем котов с разными стратегиями
+        cat1 = Cat("Барсик", MeowBehavior())
+        cat2 = Cat("Мурзик", SleepBehavior())
+        cat3 = Cat("Снежок", PlayBehavior())
+
+        # Объединяем котов в группу
+        cat_group = CatGroup("Домашние коты")
+        cat_group.add(cat1)
+        cat_group.add(cat2)
+        cat_group.add(cat3)
+
+        # Добавляем аксессуары с помощью Decorator
+        decorated_cat1 = DecoratedCat(cat1, "Колокольчик")
+        decorated_cat2 = DecoratedCat(cat3, "Игрушка-мышка")
+
+        # Вывод действий
+        print(cat_group.perform_actions())
+        # Группа Домашние коты:
+        # Барсик: Мяу!
+        # Мурзик: Спит...
+        # Снежок: Играет с игрушкой.
+
+        print(decorated_cat1.perform_action())
+        # Барсик: Мяу! С аксессуаром 'Колокольчик'
+
+        print(decorated_cat2.perform_action())
+        # Снежок: Играет с игрушкой. С аксессуаром 'Игрушка-мышка'
+
+        # Комбинирование паттернов позволяет создавать более мощные и универсальные системы. Однако важно не
+        # злоупотреблять этим подходом, чтобы избежать избыточного усложнения кода.
+
 
 def anti_pattern():
     def fragile_base_class():
