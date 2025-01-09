@@ -1466,6 +1466,12 @@ def patterns():
         print(wild_cat.sound())  # Вывод: "Р-р-р!"
 
         # Фабрика скрывает детали создания объектов, предоставляя единый интерфейс для их создания.
+        # Управляет созданием одного объекта.
+        # Реализация добавляет один уровень абстракции (базовый класс с фабричным методом).
+        # Определяет интерфейс для создания объекта, но оставляет подклассам возможность изменить тип создаваемого
+        # объекта.
+        # Когда нужно делегировать создание объекта подклассам. Например, если вы хотите, чтобы каждый подкласс
+        # создавал свои уникальные версии объекта.
 
     def decorator():
         """
@@ -1665,3 +1671,128 @@ def patterns():
         # Легко добавлять новые семейства объектов, просто создавая новую фабрику.
         # Используется, когда нужно создавать объекты, которые должны работать вместе (например, элементы
         # пользовательского интерфейса для разных платформ).
+
+    def builder():
+        """
+        Паттерн Builder используется для пошагового создания сложных объектов. Он позволяет создавать объекты, которые
+        состоят из множества частей, без необходимости указывать их порядок или процесс сборки в клиентском коде.
+        В DjangoORM этот паттерн позволяет строить запросы к базе данных по частям, что упрощает чтение и поддержку кода
+        """
+        from abc import ABC, abstractmethod
+
+        # Класс, представляющий объект, который мы будем строить
+        class Cat:
+            def __init__(self):
+                self.name = None
+                self.breed = None
+                self.color = None
+                self.accessories = []
+
+            def __str__(self):  # переопределяем пользовательский вывод
+                return (
+                    f"Кот: {self.name}, Порода: {self.breed}, Цвет: {self.color}, "
+                    f"Аксессуары: {', '.join(self.accessories) if self.accessories else 'нет'}"
+                )
+
+        # Универсальный строитель для котов
+        # Абстрактный строитель
+        class CatBuilder(ABC):
+            def __init__(self):
+                self.cat = Cat()
+
+            @abstractmethod
+            def set_name(self, name):
+                pass
+
+            @abstractmethod
+            def set_breed(self, breed):
+                pass
+
+            @abstractmethod
+            def set_color(self, color):
+                pass
+
+            @abstractmethod
+            def add_accessory(self, accessory):
+                pass
+
+            def get_cat(self):
+                return self.cat
+
+        # Конкретный строитель для домашнего кота
+        class DomesticCatBuilder(CatBuilder):
+            def set_name(self, name):
+                self.cat.name = name
+
+            def set_breed(self, breed):
+                self.cat.breed = breed
+
+            def set_color(self, color):
+                self.cat.color = color
+
+            def add_accessory(self, accessory):
+                self.cat.accessories.append(accessory)
+
+        # Конкретный строитель для дикого кота
+        class WildCatBuilder(CatBuilder):
+            def set_name(self, name):
+                self.cat.name = name
+
+            def set_breed(self, breed):
+                self.cat.breed = breed
+
+            def set_color(self, color):
+                self.cat.color = color
+
+            def add_accessory(self, accessory):
+                self.cat.accessories.append(accessory)
+
+        # Директор управляет процессом сборки. Он использует строитель для создания конкретных вариаций котов.
+        # Это позволяет клиентскому коду не заботиться о деталях процесса сборки.
+        # Директор полезен, если у нас есть повторяющиеся сценарии сборки (Домашние коты всегда имеют имя, породу, цвет
+        # и аксессуары определенного типа или Дикие коты имеют другие характеристики.)
+        class CatDirector:
+            def __init__(self, builder: CatBuilder):
+                self.builder = builder
+
+            def construct_cat(self, name, breed, color, accessories):
+                self.builder.set_name(name)
+                self.builder.set_breed(breed)
+                self.builder.set_color(color)
+                for accessory in accessories:
+                    self.builder.add_accessory(accessory)
+                return self.builder.get_cat()
+
+        # Использование
+        domestic_builder = DomesticCatBuilder()
+        wild_builder = WildCatBuilder()
+
+        # Создаем домашнего кота
+        domestic_director = CatDirector(domestic_builder)
+        domestic_cat = domestic_director.construct_cat(
+            name="Барсик",
+            breed="Персидский",
+            color="Белый",
+            accessories=["Колокольчик", "Игрушка-мышка"]
+        )
+
+        # Создаем дикого кота
+        wild_director = CatDirector(wild_builder)
+        wild_cat = wild_director.construct_cat(
+            name="Тигр",
+            breed="Амурский тигр",
+            color="Оранжевый с черными полосами",
+            accessories=["Палка", "Когти"]
+        )
+
+        print(domestic_cat)
+        # Кот: Барсик, Порода: Персидский, Цвет: Белый, Аксессуары: Колокольчик, Игрушка-мышка
+
+        print(wild_cat)
+        # Кот: Тигр, Порода: Амурский тигр, Цвет: Оранжевый с черными полосами, Аксессуары: Палка, Когти
+
+        # Строитель концентрируется на деталях создания объекта.
+        # Клиентский код или директор управляет процессом, не вникая в детали.
+        # Если объект состоит из множества частей, паттерн Builder упрощает управление процессом создания.
+        # Легко добавить новые типы объектов (например, уличного кота) или этапы сборки.
+        # Код становится более организованным и легким для понимания.
