@@ -1265,3 +1265,36 @@ def lesson_27():
     print(pt3.__dict__)
     print(pt3.__slots__)
     print(pt3.x)
+
+
+def lesson_33():
+    """
+    Вложенные классы.
+    Внутренний класс создан для того, чтобы к нему обращался внешний класс, но не наоборот.
+    Подобные вложения служит только ради удобства разработчика или в django, например.
+    """
+
+    class Women:
+        title = "объект класса для поля title"
+        photo = "объект класса для поля photo"
+        ordering = "объект класса для поля ordering"
+
+        def __init__(self, user, psw):
+            self._user = user
+            self._psw = psw
+            self.meta = self.Meta(user + "@" + psw)
+
+        class Meta:
+            ordering = ['id']
+
+            def __init__(self, access):
+                self._access = access
+                # self._t = Women.title - не следует обращаться к атрибутам внешнего класса из вложенных классов
+
+    print(Women.ordering)
+    print(Women.Meta.ordering)
+
+    w = Women('root', '12345')
+    print(w.Meta.ordering)
+    print(w.__dict__)
+    print(w.meta.__dict__)
