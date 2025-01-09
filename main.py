@@ -213,7 +213,7 @@ def lesson_6():
     Для лучшей защиты методов и атрибутов класса, можно использовать модуль accessify
     pip install accessify
     """
-    from accessify import private, protected
+    from accessify import private
 
     class Poind:
         def __init__(self, x=0, y=0):
@@ -1088,3 +1088,53 @@ def lesson_23():
     rect = Rect(0, 0, 10, 20)
     rect.get_coords()
     print(rect.__dict__)
+
+
+def lesson_24():
+    """
+    Полиморфизм - это возможность работы с совершенно разными объектами (языка Python) единым образом.
+    К разным объектам мы обращаемся через единый интерфейс (через одинаковый метод), но в каждом классе этот метод
+    переопределен под нужды своего класса и отдает разный результат.
+    Метод, который обязательно нужно переопределять в дочерних классах и не имеет своей собственной
+        реализации, называется абстрактным
+    """
+
+    class Geom:
+        def get_pr(self):
+            raise NotImplementedError("В дочернем классе должен быть переопределен метод get_pr()")
+
+    class Rectangle(Geom):
+        def __init__(self, w, h):
+            self.w = w
+            self.h = h
+
+        def get_pr(self):
+            return 2 * (self.w + self.h)
+
+    class Square(Geom):
+        def __init__(self, a):
+            self.a = a
+
+        def get_pr(self):
+            return 4 * self.a
+
+    class Triangle(Geom):
+        def __init__(self, a, b, c):
+            self.a = a
+            self.b = b
+            self.c = c
+
+        def get_pr(self):
+            return self.a + self.b + self.c
+
+    geom = [
+        Rectangle(1, 2),
+        Rectangle(3, 4),
+        Square(10),
+        Square(20),
+        Triangle(1, 2, 3),
+        Triangle(3, 4, 5)
+    ]
+
+    for g in geom:
+        print(g.get_pr())
