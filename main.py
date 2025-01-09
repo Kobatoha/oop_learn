@@ -1138,3 +1138,53 @@ def lesson_24():
 
     for g in geom:
         print(g.get_pr())
+
+
+def lesson_25():
+    """
+    Множественное наследование
+    Плохой сеньор будет прописывать новую логику (например, логирование) либо в базовом классе, либо в классе выше.
+    При множественном наследовании в python отрабатывает специальный алгоритм обхода базовых классов MRO
+    Во вспомогательных базовых классах инициализаторы следует прописывать без параметров в избежании ошибок при
+    множественном наследовании от базовых классах, у которой есть аргументы. То есть аргументы можно указывать только у
+    базового класса.
+
+    __mro__ это тот порядок, по которому функция super() будет перебирать базовые классы
+    """
+
+    class Goods:
+        def __init__(self, name, weight, price):
+            # как super узнал, что нужно идти в Mixin
+            super().__init__()
+            print("Init Goods")
+            self.name = name
+            self.weight = weight
+            self.price = price
+
+        def print_info(self):
+            print(f"{self.name}, {self.weight}, {self.price}")
+
+    # Хороший сеньор напишет отдельный класс
+    class MixinLog:
+        ID = 0
+
+        def __init__(self):
+            print("Init MixinLog")
+            self.ID += 1
+            self.id = self.ID
+
+        def save_log(self):
+            print(f"{self.id}: товар был продан в 00:00 часов")
+
+        def print_info(self):
+            print("print_info из MixinLog")
+
+    class Notebook(Goods, MixinLog):
+        def print_info(self):
+            MixinLog.print_info(self)
+
+    n = Notebook("acer", 1.5, 30000)
+    n.print_info()
+    n.save_log()
+    # список обхода классов при поиске нужного аргумента и иерархия пути от дочернего до родительского
+    print(Notebook.__mro__)
