@@ -1188,3 +1188,39 @@ def lesson_25():
     n.save_log()
     # список обхода классов при поиске нужного аргумента и иерархия пути от дочернего до родительского
     print(Notebook.__mro__)
+
+
+def lesson_26():
+    """
+    __slots__ накладывает ограничения только на локальные атрибуты, но не на атрибуты класса. Объект класса занимает
+    меньше памяти и ускорение работы с локальными свойствами.
+    """
+    import timeit
+
+    class Point:
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+        def calc(self):
+            self.x += 1
+            del self.y
+            self.y = 0
+
+    pt = Point(1, 2)
+
+    class Point2D:
+        __slots__ = ("x", "y")  # коллекция __dict__ не формируется и другие локальные свойства нельзя создавать
+
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+        def calc(self):
+            self.x += 1
+            del self.y
+            self.y = 0
+
+    pt2 = Point2D(10, 20)
+
+    print(timeit.timeit(pt.calc), timeit.timeit(pt2.calc))
