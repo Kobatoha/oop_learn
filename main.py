@@ -1298,3 +1298,21 @@ def lesson_33():
     print(w.Meta.ordering)
     print(w.__dict__)
     print(w.meta.__dict__)
+
+
+def lesson_34():
+    """
+    Метаклассы - это глубокая магия. Авада Кедавра
+    Все в python - это объекты. И классы тоже объекты. Создает их метакласс. Метакаласс это вершина и отправная точка
+    всех классов. Метакласс - это type(). Через type() можно динамически создавать классы.
+    """
+
+    class Point:
+        MAX_COORD = 100
+        MIN_COORD = 0
+
+    class A:
+        pass
+
+    print(type(A))
+    A = type('Point', (), {"MAX_COORD": 100, "MIN_COORD": 0})
