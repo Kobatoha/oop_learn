@@ -1224,3 +1224,44 @@ def lesson_26():
     pt2 = Point2D(10, 20)
 
     print(timeit.timeit(pt.calc), timeit.timeit(pt2.calc))
+
+
+def lesson_27():
+    """
+    __slots__ накладывает ограничения на атрибуты экземпляра класса, но не мешает атрибутам самого класса
+    """
+
+    class Point1D:
+        __slots__ = ("x", "y", "__length")
+
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+            self.__length = (x * x + y * y) ** 0.5
+
+        @property
+        def length(self):  # length не локальная переменная экземпляра класса, а атрибут класса Point2D
+            return self.__length
+
+        @length.setter
+        def length(self, value):
+            self.__length = value
+
+    pt = Point1D(1, 2)
+    pt.length = 10
+
+    class Point2D:
+        __slots__ = ("x", "y")
+
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+
+    class Point3D(Point2D):
+        pass
+
+    pt3 = Point3D(10, 20)
+    pt3.z = 30
+    print(pt3.__dict__)
+    print(pt3.__slots__)
+    print(pt3.x)
