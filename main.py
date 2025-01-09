@@ -1357,3 +1357,29 @@ def lesson_35():
     pt2 = Point2()
     print(pt2.MAX_COORD)
     print(pt2.get_coords())
+
+
+def lesson_36():
+    """
+    Использование метаклассов упрощает некоторый функционал, например, в Django
+    """
+
+    class Meta(type):
+        def create_local_attrs(self, *args, **kwargs):
+            # формирует локальных атрибутов для экземпляров дочерних классов
+            for key, value in self.class_attrs.items():
+                self.__dict__[key] = value
+
+        def __init__(cls, name, base, attrs):
+            cls.class_attrs = attrs
+            cls.__init__ = Meta.create_local_attrs  # инициализатор для экземпляров дочернего класса Women
+
+    class Women(metaclass=Meta):
+        title = 'заголовок'
+        content = 'контент'
+        photo = 'путь к фото'
+
+    class Men(metaclass=Meta):
+        head = 'head'
+        arms = 'arms'
+        legs = 'legs'
