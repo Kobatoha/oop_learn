@@ -2622,6 +2622,68 @@ def patterns():
         cat.restore_state(caretaker.restore())
         cat.show_state()  # Барсик: Настроение - Счастливый, Энергия - 100
 
+    def chain_of_responsibility():
+        """
+        Организовать последовательную обработку запроса несколькими объектами. Каждый объект в цепочке решает,
+        обработать запрос или передать его следующему обработчику.
+        """
+        """
+        Основные участники:
+        Handler (Обработчик):
+            Интерфейс или базовый класс, который определяет метод обработки запроса и ссылку на следующий обработчик.
+        ConcreteHandler (Конкретный обработчик):
+            Реализует обработку запроса. Если запрос не может быть обработан, передаёт его следующему обработчику.
+        Client (Клиент):
+            Отправляет запрос первому обработчику в цепочке.
+
+        Пример с котами
+        Представим, что у нас есть система обработки запросов от кота:
+            Если кот хочет поесть, запрос обрабатывает кухонный работник.
+            Если кот хочет поиграть, запрос обрабатывает хозяин.
+            Если кот хочет спать, запрос остаётся необработанным.
+        """
+
+        # Базовый обработчик
+        class Handler:
+            def __init__(self, successor=None):
+                self.successor = successor
+
+            def handle_request(self, request):
+                if self.successor:
+                    return self.successor.handle_request(request)  # хранит ссылку на следующий обработчик
+                return f"Запрос '{request}' остался необработанным."
+
+        # Конкретные обработчики
+        class FeedHandler(Handler):
+            def handle_request(self, request):
+                if request == "поесть":
+                    return "Кот накормлен."
+                return super().handle_request(request)  # Если запрос другой, он передаёт его дальше.
+
+        class PlayHandler(Handler):
+            def handle_request(self, request):
+                if request == "поиграть":
+                    return "Кот поиграл с хозяином."
+                return super().handle_request(request)
+
+        class SleepHandler(Handler):
+            def handle_request(self, request):
+                if request == "спать":
+                    return "Кот улёгся спать."
+                return super().handle_request(request)
+
+        # Клиент
+        def main():
+            # Создаём цепочку обработчиков
+            chain = FeedHandler(PlayHandler(SleepHandler()))
+
+            # Отправляем запросы
+            requests = ["поесть", "поиграть", "спать", "купаться"]
+            for req in requests:
+                print(f"Запрос: '{req}' -> Ответ: {chain.handle_request(req)}")
+
+        main()
+
 
 def anti_pattern():
     def fragile_base_class():
