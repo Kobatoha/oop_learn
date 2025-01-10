@@ -6,6 +6,7 @@
 # Наследование классов - каждый дочерний объект имеет все свойства и методы родительского класса
 
 # Полиморфизм - можно единым образом работать с разными типами данных
+# Пример: Метод рисовать() может быть реализован по-разному для классов "Круг", "Квадрат" или "Треугольник".
 
 def oop():
     def lesson_1():
@@ -1359,6 +1360,59 @@ def oop():
             head = 'head'
             arms = 'arms'
             legs = 'legs'
+
+    def from_interview():
+        from abc import ABC, abstractmethod
+
+        class Shape(ABC):
+            def __init__(self, data_dict=None, **kwargs):
+                self.data_dict = data_dict or {}
+                self.params = kwargs
+
+            @abstractmethod
+            def area(self):
+                pass
+
+        class Circle(Shape):
+            def __init__(self, data_dict=None, radius=None, **kwargs):
+                super().__init__(data_dict, **kwargs)
+                self.radius = radius or self.data_dict.get('radius') or self.params.get('radius')
+
+                if not self.radius:
+                    raise ValueError("Radius is required for Circle")
+
+            def area(self):
+                return 3.14159 * (self.radius ** 2)
+
+        class Rectangle(Shape):
+            def __init__(self, data_dict=None, width=None, height=None, **kwargs):
+                super().__init__(data_dict, **kwargs)
+                self.width = width or self.data_dict.get('width') or self.params.get('width')
+                self.height = height or self.data_dict.get('height') or self.params.get('height')
+
+                if not self.width or not self.height:
+                    raise ValueError("Width and height are required for Rectangle")
+
+            def area(self):
+                return self.width * self.height
+
+        shapes = {
+            'circle': Circle,
+            'rectangle': Rectangle
+        }
+
+        def calculate(shape_type: str, **kwargs) -> float:
+            shape_class = shapes.get(shape_type)
+            if not shape_class:
+                raise ValueError(f"Unsupported shape type: {shape_type}")
+
+            shape = shape_class(**kwargs)
+            return shape.area()
+
+        print(calculate('circle', radius=3))  # Передача радиуса
+        print(calculate('circle', data_dict={'radius': 3}))  # Передача словаря
+        print(calculate('rectangle', width=3, height=1))  # Передача сторон
+        print(calculate('rectangle', data_dict={'width': 3, 'height': 1}))  # Передача словаря
 
 
 def solid():
