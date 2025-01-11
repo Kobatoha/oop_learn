@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd556ec1-0331-4057-a440-a724a5c50790" name="Changes" comment="memento">
+    <list default="true" id="cd556ec1-0331-4057-a440-a724a5c50790" name="Changes" comment="chain_of_responsibility">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -423,12 +424,26 @@
       <option name="project" value="LOCAL" />
       <updated>1736495804838</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="from_interview">
+      <option name="closed" value="true" />
+      <created>1736498307289</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1736498307289</updated>
+    </task>
+    <task id="LOCAL-00046" summary="chain_of_responsibility">
+      <option name="closed" value="true" />
+      <created>1736529741298</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1736529741298</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="lesson 26" />
-    <MESSAGE value="lesson 27" />
     <MESSAGE value="lesson 33" />
     <MESSAGE value="lesson 34" />
     <MESSAGE value="lesson 35" />
@@ -452,6 +467,8 @@
     <MESSAGE value="strategy" />
     <MESSAGE value="state" />
     <MESSAGE value="memento" />
-    <option name="LAST_COMMIT_MESSAGE" value="memento" />
+    <MESSAGE value="from_interview" />
+    <MESSAGE value="chain_of_responsibility" />
+    <option name="LAST_COMMIT_MESSAGE" value="chain_of_responsibility" />
   </component>
 </project>

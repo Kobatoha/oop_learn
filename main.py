@@ -2684,6 +2684,100 @@ def patterns():
 
         main()
 
+    def command():
+        """
+        Инкапсулировать запрос в виде объекта, позволяя сохранять, передавать и отменять команды без привязки
+        отправителя запроса к его получателю.
+
+        Основные участники:
+        Command (Команда):
+            Интерфейс или абстрактный класс, который определяет метод выполнения команды.
+
+        ConcreteCommand (Конкретная команда):
+            Реализует команду, вызывая действия у определённого получателя.
+
+        Receiver (Получатель):
+            Объект, который выполняет действие, связанное с запросом.
+
+        Invoker (Инициатор):
+            Объект, который хранит команду и вызывает её выполнение.
+
+        Client (Клиент):
+            Создаёт команды и связывает их с инициатором.
+        """
+
+        # Команда (Command)
+        class Command:
+            def execute(self):
+                pass
+
+        # Получатель (Receiver)
+        class Cat:
+            def eat(self):
+                print("Кот ест корм.")
+
+            def play(self):
+                print("Кот играет с игрушкой.")
+
+            def sleep(self):
+                print("Кот спит на подушке.")
+
+        # Конкретные команды (ConcreteCommand)
+        class EatCommand(Command):
+            def __init__(self, cat):
+                self.cat = cat
+
+            def execute(self):
+                self.cat.eat()
+
+        class PlayCommand(Command):
+            def __init__(self, cat):
+                self.cat = cat
+
+            def execute(self):
+                self.cat.play()
+
+        class SleepCommand(Command):
+            def __init__(self, cat):
+                self.cat = cat
+
+            def execute(self):
+                self.cat.sleep()
+
+        # Инициатор (Invoker)
+        class CatTrainer:
+            def __init__(self):
+                self.commands = []
+
+            def set_command(self, command):
+                self.commands.append(command)
+
+            def execute_commands(self):
+                for command in self.commands:
+                    command.execute()
+                self.commands.clear()
+
+        # Клиент (Client)
+        def main():
+            # Создаём получателя
+            cat = Cat()
+
+            # Создаём команды
+            eat_command = EatCommand(cat)
+            play_command = PlayCommand(cat)
+            sleep_command = SleepCommand(cat)
+
+            # Инициатор выполняет команды
+            trainer = CatTrainer()
+            trainer.set_command(eat_command)
+            trainer.set_command(play_command)
+            trainer.set_command(sleep_command)
+
+            print("Выполнение команд:")
+            trainer.execute_commands()
+
+        main()
+
 
 def anti_pattern():
     def fragile_base_class():
