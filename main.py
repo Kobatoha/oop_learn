@@ -3082,3 +3082,88 @@ def anti_pattern():
         "идеальный" код. Но зачастую лучший код — это тот, который прост, понятен и решает текущую задачу. 
         Абстракции и паттерны должны использоваться только там, где они действительно необходимы.
         """
+
+
+def solid_example():
+    def bad_example():
+        class PaymentProcessor:
+            def process_payment(self, payment_type, amount):
+                if payment_type == "credit_card":
+                    self._process_credit_card(amount)
+                elif payment_type == "paypal":
+                    self._process_paypal(amount)
+                elif payment_type == "bank_transfer":
+                    self._process_bank_transfer(amount)
+                else:
+                    raise ValueError("Unsupported payment type")
+
+            def _process_credit_card(self, amount):
+                print(f"Processing credit card payment of {amount}...")
+
+            def _process_paypal(self, amount):
+                print(f"Processing PayPal payment of {amount}...")
+
+            def _process_bank_transfer(self, amount):
+                print(f"Processing bank transfer payment of {amount}...")
+
+        class Order:
+            def __init__(self, items):
+                self.items = items
+                self.total = sum(item["price"] * item["quantity"] for item in items)
+
+            def generate_invoice(self):
+                print("Generating invoice...")
+                print(f"Total: {self.total}")
+
+            def apply_discount(self, discount_code):
+                if discount_code == "DISCOUNT10":
+                    self.total *= 0.9
+                elif discount_code == "DISCOUNT20":
+                    self.total *= 0.8
+                else:
+                    print("Invalid discount code")
+
+    def good_example():
+        class PaymentProcessor:
+            def process_payment(self, payment_method):
+                payment_method.process()
+
+        class PaymentMethod:
+            def process(self):
+                pass
+
+        class CreditCardPayment(PaymentMethod):
+            def process(self):
+                print("Processing credit card payment...")
+
+        class PayPalPayment(PaymentMethod):
+            def process(self):
+                print("Processing PayPal payment...")
+
+        class BankTransferPayment(PaymentMethod):
+            def process(self):
+                print("Processing bank transfer payment...")
+
+        class Order:
+            def __init__(self, items):
+                self.items = items
+                self.total = sum(item["price"] * item["quantity"] for item in items)
+
+            def generate_invoice(self):
+                print("Generating invoice...")
+                print(f"Total: {self.total}")
+
+        class DiscountStrategy:
+            def apply_discount(self, total, discount_tax):
+                return total * discount_tax
+
+        # Пример использования
+        order = Order([{"price": 100, "quantity": 2}])
+        order.generate_invoice()
+
+        discount = DiscountStrategy()
+        order.total = discount.apply_discount(order.total, 0.8)
+        print(f"Total after discount: {order.total}")
+
+        payment_processor = PaymentProcessor()
+        payment_processor.process_payment(CreditCardPayment())

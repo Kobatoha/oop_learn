@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd556ec1-0331-4057-a440-a724a5c50790" name="Changes" comment="chain_of_responsibility">
+    <list default="true" id="cd556ec1-0331-4057-a440-a724a5c50790" name="Changes" comment="command">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -52,7 +52,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/user/Downloads/ruff-pycharm-plugin-0.0.41-signed.zip",
+    "last_opened_file_path": "C:/Users/user/PycharmProjects/OOP_learn",
     "settings.editor.selected.configurable": "com.koxudaxi.ruff.RuffConfigurable"
   }
 }]]></component>
@@ -440,11 +440,18 @@
       <option name="project" value="LOCAL" />
       <updated>1736529741298</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="command">
+      <option name="closed" value="true" />
+      <created>1736628153503</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1736628153503</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="lesson 33" />
     <MESSAGE value="lesson 34" />
     <MESSAGE value="lesson 35" />
     <MESSAGE value="lesson 36" />
@@ -469,6 +476,7 @@
     <MESSAGE value="memento" />
     <MESSAGE value="from_interview" />
     <MESSAGE value="chain_of_responsibility" />
-    <option name="LAST_COMMIT_MESSAGE" value="chain_of_responsibility" />
+    <MESSAGE value="command" />
+    <option name="LAST_COMMIT_MESSAGE" value="command" />
   </component>
 </project>
